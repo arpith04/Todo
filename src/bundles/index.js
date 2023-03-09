@@ -1,11 +1,7 @@
-import React from 'react';
+import { composeBundles } from "redux-bundler";
+import todoBundle from './todo'
 
-const Index = () => {
-    return (
-        <div>
-            
-        </div>
-    );
-}
 
-export default Index;
+export default composeBundles(
+    todoBundle
+)
