@@ -7,44 +7,93 @@ export const UPDATE_CHECKBOX = 'UPDATE_CHECKBOX'
 export default {
     name: 'todo',
 
-    reducer: (state = [
-        { id: 1, todo: 'Buy Laptop', completed: false },
-        { id: 2, todo: 'Master Redux', completed: false },
-        { id: 3, todo: 'Watering Plants', completed: true },
-    ], action) => {
+    reducer: (state = {
+        todoList:
+            [{ id: 1, todo: 'Buy Laptop', completed: false },
+            { id: 2, todo: 'Master Redux', completed: false },
+            { id: 3, todo: 'Watering Plants', completed: true }]
+    }, action) => {
         switch (action.type) {
             case ADD_TODO:
-                return [...state, action.payload]
+                return { ...state, todoList: [...state.todoList, action.payload] }
+            // return [...state, action.payload]
             case DELETE_ALL:
-                return []
+                return { todoList: [] }
             case REMOVE_TODO:
-                return state.filter((todo) => todo.id !== action.payload)
+                return { ...state, todoList: state.todoList.filter((todo) => todo.id !== action.payload) }
+            // return state.filter((todo) => todo.id !== action.payload)
             case UPDATE_TODO:
                 let data = action.payload;
                 const updatedArray = []
-                state.map((item) => {
-                    if (item.id === data.id) {
-                        item.id = data.id;
-                        item.todo = data.todo;
-                        item.completed = data.completed;
-                    }
-                    updatedArray.push(item);
-                })
-                return updatedArray;
+                return {
+                    ...state, todoList:
+                        state.todoList.map((item) => {
+                            if (item.id === data.id) {
+                                item.id = data.id;
+                                item.todo = data.todo;
+                                item.completed = data.completed;
+                            }
+                            return item;
+                            // updatedArray.push(item);
+
+                        })
+                }
+            // state.map((item) => {
+            //     if (item.id === data.id) {
+            //         item.id = data.id;
+            //         item.todo = data.todo;
+            //         item.completed = data.completed;
+            //     }
+            //     updatedArray.push(item);
+            // })
+            // return updatedArray;
             case UPDATE_CHECKBOX:
                 let todoArray = [];
-                state.map((item) => {
-                    if (item.id === action.payload) {
-                        item.completed = !item.completed;
-                    }
-                    todoArray.push(item);
-                })
-                return todoArray;
+                return {
+                    ...state, todoList:
+                        state.todoList.map((item) => {
+                            if (item.id === action.payload) {
+                                item.completed = !item.completed;
+                            }
+                            return item;
+                        })
+                }
+            // state.map((item) => {
+            //     if (item.id === action.payload) {
+            //         item.completed = !item.completed;
+            //     }
+            //     todoArray.push(item);
+            // })
+            // return todoArray;
             default:
                 return state;
         }
     },
-    selectId: state => state.id,
-    selectTodo: state => state.todo,
-    selectCompleted: state => state.completed
+    selectTodoList: state => state.todo.todoList,
+    selectTodo: state => state.todo.todoList.todo,
+    selectCompleted: state => state.todo.todoList.completed,
+
+    doAdd: (payload) => ({
+        type: ADD_TODO,
+        payload
+    }),
+
+    doDelete: () => ({
+        type: DELETE_ALL
+    }),
+
+    doRemove: (payload) => ({
+        type: REMOVE_TODO,
+        payload
+    }),
+
+    doUpdate: (payload) => ({
+        type: UPDATE_TODO,
+        payload
+    }),
+
+    doCheckBox: (payload) => ({
+        type: UPDATE_CHECKBOX,
+        payload
+    }),
 }

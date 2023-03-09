@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { AddTodo, handleEditSubmit } from '../redux/todoapp/actions/Actions';
 
-const Form = ({ editFormVisibility, editTodo, cancelUpdate }) => {
-
-    const dispatch = useDispatch()
+const Form = ({ editFormVisibility, editTodo, cancelUpdate, doAdd, doUpdate }) => {
 
     const [todoValue, setTodoValue] = useState('')
 
@@ -23,7 +19,7 @@ const Form = ({ editFormVisibility, editTodo, cancelUpdate }) => {
             completed: false
         }
         setTodoValue('')
-        dispatch(AddTodo(todoObj))
+        doAdd(todoObj)
     }
 
     const editSubmit = e => {
@@ -33,7 +29,7 @@ const Form = ({ editFormVisibility, editTodo, cancelUpdate }) => {
             todo: editValue,
             completed: false
         }
-        dispatch(handleEditSubmit(editObj))
+        doUpdate(editObj)
     }
 
     return (
