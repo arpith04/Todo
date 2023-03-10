@@ -8,10 +8,9 @@ export default {
     name: 'todo',
 
     reducer: (state = {
-        todoList:
-            [{ id: 1, todo: 'Buy Laptop', completed: false },
-            { id: 2, todo: 'Master Redux', completed: false },
-            { id: 3, todo: 'Watering Plants', completed: true }]
+        todoList: localStorage.getItem("Todos")
+            ? JSON.parse(localStorage.getItem("Todos"))
+            : []
     }, action) => {
         switch (action.type) {
             case ADD_TODO:
@@ -24,7 +23,6 @@ export default {
             // return state.filter((todo) => todo.id !== action.payload)
             case UPDATE_TODO:
                 let data = action.payload;
-                const updatedArray = []
                 return {
                     ...state, todoList:
                         state.todoList.map((item) => {
@@ -48,7 +46,6 @@ export default {
             // })
             // return updatedArray;
             case UPDATE_CHECKBOX:
-                let todoArray = [];
                 return {
                     ...state, todoList:
                         state.todoList.map((item) => {
@@ -68,6 +65,8 @@ export default {
             default:
                 return state;
         }
+
+        localStorage.setItem("Todos", JSON.stringify(state.todoList))
     },
     selectTodoList: state => state.todo.todoList,
     selectTodo: state => state.todo.todoList.todo,

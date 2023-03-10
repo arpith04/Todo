@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 import Form from './components/Form';
 import Todo from './components/Todo';
 import './index.css'
-// import { useDispatch, useSelector } from 'react-redux';
-import { deleteAll } from './redux/todoapp/actions/Actions';
 import { connect } from 'redux-bundler-react';
-
 
 const App = (props) => {
     const { todoList } = props;

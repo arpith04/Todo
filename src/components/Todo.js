@@ -6,6 +6,9 @@ import { edit2 } from 'react-icons-kit/feather/edit2'
 const Todo = ({ handleEditClick, editFormVisibility, todoList, doRemove, doCheckBox }) => {
     // const dispatch = useDispatch()
     // const todos = useSelector((state) => state.operationsReducer)
+
+    localStorage.setItem("Todos", JSON.stringify(todoList))
+
     return todoList.map((todo) => (
         <div key={todo.id} className='todo-box'>
             <div className='content'>
